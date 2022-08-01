@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Metaverse Mall</title>
+    <meta name="description" content="Dev Example — Networked-Aframe" />
+
+  <!-- A-frame scripts and packages needed-->  
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.4.0/socket.io.slim.js"></script> 
+    <script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://unpkg.com/aframe-randomizer-components@^3.0.1/dist/aframe-randomizer-components.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/IdeaSpaceVR/aframe-particle-system-component@master/dist/aframe-particle-system-component.min.js"></script>
+    <script src="https://kit.fontawesome.com/7d6068cbaa.js" crossorigin="anonymous"></script>
+
+    <!--js files needed for making custom components  -->
+    <script src="/easyrtc/easyrtc.js"></script>
+    <script src="/dist/networked-aframe.js"></script>
+    <script src="/js/spawn-in-circle.component.js"></script>
+    <script src="/js/play-on-click.js"></script>
+    <script src="/js/tppcontrols.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  </head>
+  <script>
+
+    //this component is for saving various avatars of different users.
+
+    NAF.schemas.getComponentsOriginal = NAF.schemas.getComponents;
+    NAF.schemas.getComponents = (template) => {
+      if (!NAF.schemas.hasTemplate("#avatar-template")) {
+        NAF.schemas.add({
+          template: "#avatar-template",
+          components: [
+            "position",
+            "rotation",
+            {
+              selector: ".model",
+              component: "gltf-model",
+            },
+            {
+              selector: ".nametag",
+              component: "troika-text",
+              property: "value",
+            },
+          ],
+        });
+      }
+      const components = NAF.schemas.getComponentsOriginal(template);
+      return components;
+    };
+
+    //this component if for getting the user selected avatar for the user
+    AFRAME.registerComponent("model-changer", {
+      init: function () {
+        var params = getUrlParams(); 
+        this.el.setAttribute("gltf-model", params.avatar);
+
+        // for getting the parameters from the url
+        function getUrlParams() {
+          var match;
+          var pl = /\+/g; // Regex for replacing addition symbol with a space
+          var search = /([^&=]+)=?([^&]*)/g;
+          var decode = function (s) {
+            return decodeURIComponent(s.replace(pl, " "));
+          };
+          var query = window.location.search.substring(1);
+          var urlParams = {};
+
+          match = search.exec(query);
+          while (match) {
+            urlParams[decode(match[1])] = decode(match[2]);
+            match = search.exec(query);
+          }
+          return urlParams;
+        }
+      },
+    });
+
+    //this component is for getting the desired user name 
+    AFRAME.registerComponent("text-changer", {
+      init: function () {
+        var params = getUrlParams();
+
+        this.el.setAttribute("troika-text", "value", params.username);
+
+        function getUrlParams() {
+          var match;
+          var pl = /\+/g; // Regex for replacing addition symbol with a space
+          var search = /([^&=]+)=?([^&]*)/g;
+          var decode = function (s) {
+            return decodeURIComponent(s.replace(pl, " "));
+          };
+          var query = window.location.search.substring(1);
+          var urlParams = {};
+
+          match = search.exec(query);
+          while (match) {
+            urlParams[decode(match[1])] = decode(match[2]);
+            match = search.exec(query);
+          }
+          return urlParams;
+        }
+      },
+    });
+    
+  </script>
+  
+  <body>
+    <span class="link"></span>\
+
+    <!--this element is our entire 3d world enclosing all the 3d components in it -->
+    <a-scene
+      networked-scene="
+      room: basic-audio;
+      debug: true;
+      adapter: easyrtc;
+      audio: true;
+    "
+    renderer="logarithmicDepthBuffer: true;"
+    rotation="0 0 0"
+    cursor="rayOrigin: mouse"
+    >
+      <a-assets >
+       <!--this is our default model for avatar-->
+        <a-asset-item
+          id="vr-scene"
+          src="https://d1a370nemizbjq.cloudfront.net/4d2b6f30-7929-49db-9e70-34b3f554793c.glb"
+        >
+       <!--audio and video used for advertisement banner inside and outside-->
+        <audio
+        id="music"
+        src="./videoplayback (audio-extractor.net).mp3"
+        
+      ></audio>
+        <video
+          id="videoBunny"
+          preload="auto"
+          src="./videoplayback.mp4"
+          width="160"
+          height="90"
+          autoplay
+          loop="true"
+          crossorigin="anonymous"
+          muted
+        ></video>
+        <video
+          id="videoFireworks"
+          preload="auto"
+          src="./production ID_4911644.mp4"
+          width="160"
+          height="90"
+          autoplay="true"
+          loop="true"
+          crossorigin="anonymous"
+          muted
+        ></video>
+        
+        </a-asset-item>
+        <!--all the other models used in this 3d world except products-->
+        <a-asset-item id="vr-scene1" src="./sky.glb"> </a-asset-item>
+        <a-asset-item id="vr-scene2" src="./shoppin-mall/scene.gltf">
+        <a-asset-item id="vr-scene3" src="./floor.glb">
+        <a-asset-item id="vr-scene4" src="./billboard/scene.gltf">
+
+        <!-- Templates -->
+
+        <!-- Avatar -->
+        <template id="avatar-template">
+          <a-entity class="avatar" networked-audio-source>
+            <a-entity class="avatar" networked-audio-source>
+              <a-entity
+                class="nametag"
+                troika-text="value: Hello ji there!;color: red;outlineColor: black;outlineWidth: 0.002;"
+                side="double"
+                troika-color="black"
+                position="-60 6 0"
+                scale="2 2 2"
+              ></a-entity>
+
+              <a-entity
+                class="model"
+                rotation="0 180 0"
+                scale="2.8 2.8 2.8"
+                position="-60 0 0"
+                gltf-model="#vr-scene"
+              ></a-entity>
+            </a-entity>
+          </a-entity>
+        </template>
+
+        <!-- /Templates -->
+      </a-assets>
+       <!-- secondary camara -->
+      <a-entity
+        follow-box="target: #player"
+        look-controls
+        movement-controls="fly: true; speed: 1"
+      >
+        <a-entity camera position="-60 6 -0.3" rotation="0 0 0"id="cam"></a-entity>
+      </a-entity>
+
+      <a-entity id="cameraRig">
+        <a-entity
+          id="player"
+          networked="template:#avatar-template;attachTemplateToLocal:false;"
+          camera
+          position="130 1.6 -18"
+          spawn-in-circle="radius:3"
+          wasd-controls
+          look-controls
+          rotate-with-camera
+          drag-rotate-component
+        >
+        <a-entity
+        class="nametag"
+        troika-text="value: Hello  ji there!;color:#228B22;outlineColor: black;outlineWidth: 0.002;"
+        troika-color="black"
+        position="-60 5.6 0"
+        side="double"
+        rotation="0 0 0"
+        scale="2 2 2 "
+        text-changer
+      ></a-entity>
+      
+          <a-entity
+            class="model"
+            gltf-model="#vr-scene"
+            rotation="0 180 0"
+                scale="2.8 2.8 2.8"
+                position="-60 0 0"
+  
+            model-changer
+          ></a-entity>
+      </a-entity>
+        
+        </a-entity>
+      </a-entity>
+      <!--this our central shopping mall-->
+      <a-entity
+        gltf-model="#vr-scene2"
+        rotation="0 50 0"
+        scale="0.05 0.05 0.05"
+        position="5 0 1"
+        material="metalness: 0.8;"
+      ></a-entity>
+      <!--this used for the trangular flooring of our mall-->
+      <a-entity
+        gltf-model="#vr-scene3"
+        rotation="0 180 0"
+        scale="16 8 6.5"
+        rotation="0 40 0"
+        position="63 0.6 -214"
+      ></a-entity>  
+      <a-entity
+        position="233 0.7 -250"
+        geometry="primitive: plane; width: 180; height: 28;"
+        material="color: white;"
+        rotation="-90 50 0"
+      ></a-entity> 
+      <!--this is used for audio and video in our billboard-->
+      <a-cylinder
+        radius="2"
+        height="5"
+        position="-5 22 -85"
+        sound="src: #music; 
+          autoplay: true;
+          volume: 0.2;
+          refDistance: 30;
+          rolloffFactor: 20;
+          loop: true;"
+      >
+      </a-cylinder>
+      <a-entity
+      position="40 11 -260"
+      geometry="primitive: plane; width: 230; height: 22;"
+      material="shader: flat; src: #videoFireworks"
+      rotation="0 17 0"
+      play-on-click
+    ></a-entity>
+      <a-entity
+      material="shader: flat; src: #videoBunny"
+      geometry="primitive: plane; width: 38; height: 22;"
+      position="-2 38.5 -80"
+      rotation="0 45 0"
+      play-on-click
+    > 
+    </a-entity> 
+    <!--this the model of our bill board-->
+    <a-entity
+    class="model"
+    gltf-model="#vr-scene4"
+    rotation="0 45 0"
+        scale="25 25 25"
+        position="-5 22 -85"
+  >
+</a-entity>
+    <!--this is lighting of  our central shopping mall-->
+      <a-entity
+        light="color: #ccccff; intensity: 1.1; type: ambient;"
+        visible="no"
+      ></a-entity>
+      <a-entity
+        light="color: #ccccff; intensity: 1.5;"
+        position="5 5 5"
+      ></a-entity>
+      <a-sky gltf-model="#vr-scene1" rotation="0 70 0" scale="11 11 11"></a-sky>
+      <a-entity id="particles" particle-system="preset: snow"></a-entity>
+    </a-scene>
+
+    <!-- GitHub Corner. -->
+    <a
+      href="https://github.com/HarshV27/mall"
+      class="github-corner"
+    >
+      <svg
+        width="80"
+        height="80"
+        viewBox="0 0 250 250"
+        style="
+          fill: #222;
+          color: #fff;
+          position: absolute;
+          top: 0;
+          border: 0;
+          right: 0;
+        "
+      >
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path
+          d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+          fill="currentColor"
+          style="transform-origin: 130px 106px"
+          class="octo-arm"
+        ></path>
+        <path
+          d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+          fill="currentColor"
+          class="octo-body"
+        ></path>
+      </svg>
+    </a>
+   <!--our buttons for audio and 3'rd person view -->
+    <div class="actions">
+      <button id="mic-btn" type="button" class="button"><i id="mt-btn" class="fa-solid fa-microphone fa-xl"></i></button>
+      <button id="cam-btn" type="button" class="button"><i id ="cm-btn" class="fa-solid fa-person fa-xl"></i></button>
+
+    </div>
+
+    <script>
+      // Mic status and cam status
+      let micEnabled = true;
+      let camaraEnabled = true;
+      // Mic and cam button ele
+      var scene = document.querySelector("a-scene");
+      const micBtnEle = document.getElementById("mic-btn");
+      const camaraBtn = document.getElementById("cam-btn");
+      const camaraElt = document.getElementById("cam");
+      // // On mobile remove elements that are resource heavy
+      const isMobile = AFRAME.utils.device.isMobile();
+
+      if (isMobile) {
+        const particles = document.getElementById("particles");
+        particles.parentNode.removeChild(particles);
+      }
+    </script>
+   <script src="js/gotmore.js"></script>
+    <script>
+      // Called by Networked-Aframe when connected to server
+      function onConnect() {
+        console.log("onConnect", new Date());
+        if (!scene.hasLoaded) {
+          scene.addEventListener("loaded", connect);
+          return;
+        }
+        // Handle mic and camara button click (Mute and Unmute)
+        micBtnEle.addEventListener("click", function () {
+          NAF.connection.adapter.enableMicrophone(!micEnabled);
+          micEnabled = !micEnabled;
+          var ic = document.getElementById("mt-btn");
+          if(micEnabled){
+            ic.className = "fa-solid fa-microphone fa-xl";
+          }else{
+            ic.className = "fa-solid fa-microphone-slash fa-xl";
+          }
+        });
+        camaraBtn.addEventListener("click", function () {
+          // NAF.connection.adapter.enableMicrophone(!micEnabled);
+          if (!camaraEnabled) {
+            camaraElt.setAttribute("position", "-60 6 -0.3");
+          } else {
+            camaraElt.setAttribute("position", "-60 6 6");
+          }
+          camaraEnabled = !camaraEnabled;
+          var mc = document.getElementById("cm-btn");
+          if(camaraEnabled){
+            mc.className = "fa-solid fa-person fa-xl";
+          }else{
+            mc.className = "fa-solid fa-eye fa-xl";
+          }
+
+        });
+      }
+      
+    </script>
+  </body>
+</html>

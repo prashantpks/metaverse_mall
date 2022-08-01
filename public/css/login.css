@@ -1,0 +1,212 @@
+.iframe-content {
+  width: 80%;
+  height: 800px;
+  margin-left: 11%;
+  margin-right: 5%;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  padding: 20px;
+  font-size: 14px;
+  border: none;
+}
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+.login-page {
+  width: 360px;
+  border-radius: 16px;
+  margin: auto;
+  margin-top: 0px;
+  padding: 5% 0 0;
+}
+form input[type="text"] {
+  text-transform: lowercase;
+}
+.up {
+  margin: auto;
+}
+.form {
+  position: relative;
+  z-index: 1;
+  max-width: 360px;
+  margin: 0px 0px 0px 0px;
+  border-radius: 16px;
+  background-color: #ffffff;
+  background-size: 100% 100%;
+  padding: 35px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border-radius: 3px;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 8px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.form button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: #4caf50;
+  width: 100%;
+  border: 0;
+  padding: 8px;
+  color: #ffffff;
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+}
+.form button:hover,
+.form button:active,
+.form button:focus {
+  background: #43a047;
+}
+.form .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+.form .message a {
+  color: #4caf50;
+  text-decoration: none;
+}
+.form .register-form {
+  display: none;
+}
+/* .container {
+  position: relative;
+  z-index: 1;
+  max-width: 300px;
+
+  margin: 0 auto;
+}
+.container:before,
+.container:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+.container .info {
+  margin: 50px auto;
+  text-align: center;
+}
+.container .info h1 {
+  margin: 0 0 15px;
+  padding: 0;
+  font-size: 36px;
+  font-weight: 300;
+  color: #1a1a1a;
+}
+.container .info span {
+  color: #4d4d4d;
+  font-size: 12px;
+}
+.container .info span a {
+  color: #000000;
+  text-decoration: none;
+}
+.container .info span .fa {
+  color: #ef3b3a;
+} */
+body {
+  /* background-image: url("https://cdn.glitch.com/785175ae-ab0e-488a-a0c9-fc1c9a83439c%2Fwaves_green-67a53bd9125a2c87657051177a14de2c.jpg?v=1632171878288"); */
+  background-image: url("./Screenshot\ \(110\).png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* h2 {
+  margin-left: 20px;
+  font-weight: 900;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+} */
+/*
+p {
+  margin: 20px;
+  padding-top: 20px;
+  font-size: larger;
+}
+*/
+input[type="text"],
+select {
+  width: 100%;
+  padding: 8px;
+  margin: 6px 0;
+  display: inline-block;
+  border: 0.5px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+/* .btn-hover {
+  width: 160px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  margin: 20px;
+  height: 55px;
+  text-align: center;
+  border: none;
+  background-size: 300% 100%;
+  border-radius: 50px;
+
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+} */
+/*
+.btn-hover:hover {
+  background-position: 100% 0;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+.btn-hover:focus {
+  outline: none;
+}
+
+.btn-hover.btn {
+  background-image: linear-gradient(to right,
+      #009245,
+      #fcee21,
+      #00a8c5,
+      #d9e021);
+  box-shadow: 0 4px 15px 0 rgba(83, 176, 57, 0.75);
+}
+*/
+.btn2 {
+  font-family: lato, sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  background: green;
+  display: inline-block;
+  padding: 10px 40px 10px 40px;
+  position: relative;
+  /* border: 3px solid #ffffff; */
+  border-radius: 25px;
+  background-color: black;
+}
+
+.btn2:hover {
+  background: grey;
+}
+/*
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+} */

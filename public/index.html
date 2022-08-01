@@ -1,0 +1,96 @@
+<html>
+
+<head>
+  <link href="./css/login.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="login-page">
+    <div class="form">
+      <h2>Enter room details</h2>
+      <div id="details">
+        <form class="login-form" action="/scene.html" method="GET">
+          <label for="avatar" style="font-size:large">Avatar: </label>
+          <input type="text" name="avatar" placeholder="avatar" id="avatar" required />
+
+          <label for="username" style="font-size:large">Username: </label>
+          <input type="text" name="username" id="username" placeholder="username" required />
+
+
+          <button class="btn-hover btn">Join Room</button>
+        </form>
+      </div>
+      <input type="button" class="btn2" value="Open Avatar creator" onClick="displayIframe()" />
+      </br>
+    </div>
+
+  </div>
+
+  <!-- This is to use our ready player me avatar api in our website,we are using a
+     demo version of it which is legalized for non commercial use we can partner with them for free for small commercial
+    projects and there are some charges for a large commercial project -->
+    
+  <iframe id="iframe" class="iframe-content" allow="camera *; microphone *"></iframe>
+  <script>
+    const subdomain = "demo"; 
+    const frame = document.getElementById("iframe");
+
+    frame.src = `https://${subdomain}.readyplayer.me/avatar?frameApi`;
+
+    window.addEventListener("message", subscribe);
+    document.addEventListener("message", subscribe);
+
+    function subscribe(event) {
+      const json = parse(event);
+
+      if (json?.source !== "readyplayerme") {
+        return;
+      }
+
+      // Susbribe to all events sent from Ready Player Me once frame is ready
+      if (json.eventName === "v1.frame.ready") {
+        frame.contentWindow.postMessage(
+          JSON.stringify({
+            target: "readyplayerme",
+            type: "subscribe",
+            eventName: "v1.**",
+          }),
+          "*"
+        );
+      }
+
+      // Get avatar GLB URL
+      if (json.eventName === "v1.avatar.exported") {
+        console.log(`Avatar URL: ${json.data.url}`);
+        document.getElementById("avatar").value = `${json.data.url}`;
+        document.getElementById("iframe").hidden = true;
+      }
+
+      // Get user id
+      if (json.eventName === "v1.user.set") {
+        console.log(
+          `User with id ${json.data.id} set: ${JSON.stringify(json)}`
+        );
+      }
+    }
+
+    function parse(event) {
+      try {
+        return JSON.parse(event.data);
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function displayIframe() {
+      document.getElementById("iframe").hidden = false;
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

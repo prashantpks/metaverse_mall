@@ -1,0 +1,56 @@
+.actions {
+  position: absolute;
+  display: flex;
+  bottom: 3%;
+  left: 3%;
+}
+
+.button {
+  cursor: pointer;
+  background: #ffffff;
+  height: 60px;
+  width: 60px;
+  padding: 2px;
+  border-radius: 50px;
+  margin-right: 10px;
+}
+
+.controls {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  flex-direction: row;
+  top: 0;
+}
+
+.controls p {
+  font-family: monospace;
+  color: white;
+}
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out;
+}
+@keyframes octocat-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20%,
+  60% {
+    transform: rotate(-25deg);
+  }
+  40%,
+  80% {
+    transform: rotate(10deg);
+  }
+}
+@media (max-width: 500px) {
+  .github-corner:hover .octo-arm {
+    animation: none;
+  }
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+}

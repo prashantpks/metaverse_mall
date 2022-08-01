@@ -1,0 +1,70 @@
+.form-row input {
+  outline: 0;
+  border-width: 0 0 2px;
+  border-color: gray;
+  transition: 0.3s ease-in;
+}
+
+.form-row input:focus {
+  border-color: blue;
+  caret-color: blue;
+}
+
+small {
+  color: blue;
+}
+
+.box {
+  box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.cancel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: orange;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease-in;
+}
+
+.confirm-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: orangered;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease-in;
+}
+
+.qr-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease-in;
+}
+.confirm-btn:hover {
+  background: white;
+  color: orangered;
+}
+.cancel-btn:hover {
+  background: white;
+  color: orange;
+}
+
+.qr-btn:hover {
+  background: white;
+  color: black;
+}
+
+a-scene {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 12px;
+  width: 90%;
+  height: 600px;
+}

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Solar energyfor shopping malls
+* source:	https://sketchfab.com/3d-models/solar-energyfor-shopping-malls-779a59322fa94ff8aa1deeb0dcc6bccb
+* author:	Oleh Volyk (https://sketchfab.com/volegv)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Solar energyfor shopping malls" (https://sketchfab.com/3d-models/solar-energyfor-shopping-malls-779a59322fa94ff8aa1deeb0dcc6bccb) by Oleh Volyk (https://sketchfab.com/volegv) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
